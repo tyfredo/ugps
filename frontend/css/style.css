@@ -1,7 +1,139 @@
-/* css/style.css */
-#mapa {
-    height: 60vh; /* Ocupará el 60% del alto de la pantalla */
-    width: 100%;
-    min-height: 400px;
-    background-color: #e9ecef; /* Un fondo gris mientras carga el mapa real */
+/* --- PALETA DE COLORES "DARK & YELLOW" --- */
+:root {
+  --sidebar-dark: #1a1b1f;
+  --ug-gold-bright: #fff27d; 
+  --ug-blue-muted: #4e6a88;
+  --bee-background: #f1f3f5;
+  --text-on-dark: #ffffff;
+  --ug-gold-dark: rgba(255, 255, 255, 0.096);
 }
+
+/* Colores de utilidad personalizados */
+.bg-sidebar-dark { background-color: var(--sidebar-dark) !important; }
+.text-ug-gold-bright { color: var(--ug-gold-bright) !important; }
+.bg-ug-gold-bright { background-color: var(--ug-gold-bright) !important; }
+.bg-ug-blue-muted { background-color: var(--ug-blue-muted) !important; }
+.bg-ug-gold-dark { background-color: var(--ug-gold-dark) !important;}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ========================================================
+   ANIMACIÓN DE SIDEBAR COLAPSABLE
+   ======================================================== */
+
+.sidebar {
+    background-color: var(--sidebar-dark) !important;
+    color: var(--text-on-dark) !important;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.2); 
+    
+    /* ESTADO INICIAL (COLAPSADO) */
+    width: 85px; /* Ancho justo para el icono y el padding */
+    transition: width 0.3s ease-in-out;
+    overflow-x: hidden; /* Oculta lo que se sale del ancho */
+    white-space: nowrap; /* Evita que el texto baje de línea */
+}
+
+/* ESTADO EXPANDIDO (AL PASAR EL MOUSE) */
+.sidebar:hover {
+    width: 280px; 
+}
+
+/* Ocultar textos por defecto con una transición suave */
+.logo-container, 
+.nav-text, 
+.bottom-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Mostrar textos al expandir la barra */
+.sidebar:hover .logo-container,
+.sidebar:hover .nav-text,
+.sidebar:hover .bottom-text {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.1s; /* Retardo para que aparezca fluidamente después de expandir */
+}
+
+/* Ajustes de alineación para que los iconos queden siempre centrados */
+.icon-center {
+    min-width: 24px;
+    text-align: center;
+}
+
+/* ======================================================== */
+
+/* --- AJUSTES DEL LOGO --- */
+.sidebar .logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.logo-wrapper {
+    min-width: 240px; /* Evita que el contenedor colapse y rompa el flex */
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-main-text {
+    font-size: 2.2rem; 
+    color: var(--ug-gold-bright);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}
+
+.logo-sub-text {
+    font-size: 0.9rem; 
+    color: var(--text-on-dark);
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Estilo para los enlaces de navegación */
+.nav-link {
+    transition: all 0.2s ease-in-out;
+    border-radius: 6px;
+    padding: 0.8rem;
+}
+
+/* Estado activo */
+.nav-link.active {
+    color: var(--ug-gold-bright) !important; 
+}
+
+/* Efecto hover */
+.hover-nav:hover {
+    background-color: rgba(248, 239, 166, 0.033) !important; 
+}
+
+/* --- ESTILO DE LA TARJETA FLOTANTE DE INFORMACIÓN --- */
+.floating-info-card .card {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+}
+
+.border-ug-gold-desat { border-color: var(--ug-gold-bright) !important; }
+.bg-ug-gold-desat { background-color: var(--ug-gold-bright) !important; }
+
+/* --- ESTILO DEL MAPA (LEAFLET) --- */
+#mapa {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bee-background); 
+}
+
+.leaflet-container { z-index: 1 !important; }
+.z-3 { z-index: 1000 !important; }

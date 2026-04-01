@@ -25,6 +25,11 @@ function initMap() {
 
     // 4. Agregar el marcador al mapa
     busMarker = L.marker(DICIS_CENTER, {icon: transportIcon}).addTo(map);
+
+    // --- CORRECCIÓN: Evita el error de la pantalla gris en Bootstrap ---
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 500);
 }
 
 // Función para mover el camión en tiempo real
@@ -37,3 +42,6 @@ window.updateMarkerPosition = function(lat, lng) {
         map.panTo(newLatLng);
     }
 };
+
+// --- CORRECCIÓN: Ejecutar la función cuando el HTML esté listo ---
+document.addEventListener('DOMContentLoaded', initMap);
