@@ -1,0 +1,7 @@
+/* css/style.css */
+#mapa {
+    height: 60vh; /* Ocupará el 60% del alto de la pantalla */
+    width: 100%;
+    min-height: 400px;
+    background-color: #e9ecef; /* Un fondo gris mientras carga el mapa real */
+}
