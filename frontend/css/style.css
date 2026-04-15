@@ -171,34 +171,60 @@ main {
 
 @media (max-width: 768px) {
 
-    /* 1. LAYOUT GENERAL INMERSIVO */
-    .d-flex.vh-100 {
-        display: block !important; 
-        position: relative;
-    }
+    /* 1. LAYOUT */
 
+    /* ✅ FIX: mapa borde a borde */
     main {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
         width: 100vw !important;
-        height: 100vh !important;
+        height: 100dvh !important;
         padding: 0 !important;
-        position: absolute;
-        top: 0;
-        left: 0;
+        margin: 0 !important;
+        overflow: visible !important;
+        background: transparent !important; /* ✅ quita el fondo oscuro del main */
     }
 
     #mapa {
-        height: 100% !important;
+        position: fixed !important;   /* ✅ fixed directo al viewport */
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100dvh !important;
+        border-radius: 0 !important;
+        z-index: 1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* ✅ asegurar que Leaflet también llene todo */
+    .leaflet-container {
         width: 100% !important;
-        border-radius: 5px !important;
+        height: 100% !important;
     }
 
-    /* 2. 🔝 LOGO FLOTANTE (ARRIBA) */
-    .sidebar {
-        background: transparent !important;
-        border: none !important;
-        position: static;
+    /* ✅ quitar el padding del body de Bootstrap */
+    html, body {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
+    .d-flex.vh-100 {
+        display: block !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;         /* fallback */
+        height: 100dvh !important;        /* ✅ dynamic viewport height — clave en mobile */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    
+    /* 2. LOGO FLOTANTE */
+    .sidebar { background: transparent !important; border: none !important; position: static; }
     .sidebar > a {
         position: fixed !important;
         top: 20px !important;
@@ -207,22 +233,18 @@ main {
         width: auto !important;
         min-width: 180px;
         z-index: 1100;
-
-        /* Glass */
-        background-color: rgba(26, 27, 31, 0.9) !important; 
+        background-color: rgba(26, 27, 31, 0.9) !important;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 242, 125, 0.2) !important;
         border-radius: 30px !important;
         padding: 10px 20px !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 10px;
     }
-
     .sidebar .logo-container {
         display: flex !important;
         opacity: 1 !important;
@@ -230,22 +252,11 @@ main {
         flex-direction: column;
         align-items: flex-start;
     }
+    .sidebar .logo-img { width: 40px !important; height: 40px !important; }
+    .logo-text { font-size: 1.2rem !important; line-height: 1; }
+    .sidebar .logo-container span:last-child { font-size: 0.6rem !important; }
 
-    .sidebar .logo-img {
-        width: 40px !important;
-        height: 40px !important;
-    }
-
-    .logo-text {
-        font-size: 1.2rem !important;
-        line-height: 1;
-    }
-
-    .sidebar .logo-container span:last-child {
-        font-size: 0.6rem !important;
-    }
-
-    /* 3. 🔻 NAV INFERIOR FLOTANTE */
+    /* 3. NAV INFERIOR */
     .sidebar ul.nav {
         position: fixed !important;
         bottom: 25px !important;
@@ -254,14 +265,11 @@ main {
         width: 85% !important;
         max-width: 360px;
         height: 65px !important;
-
-        /* Glass */
         background-color: rgba(26, 27, 31, 0.9) !important;
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 25px !important;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
-
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
@@ -270,8 +278,6 @@ main {
         z-index: 1100;
         margin: 0 !important;
     }
-
-    /* ICONOS */
     .nav-link {
         padding: 10px !important;
         font-size: 1.2rem;
@@ -280,12 +286,7 @@ main {
         align-items: center;
         justify-content: center;
     }
-
-    .nav-link i {
-        font-size: 1.5rem;
-    }
-
-    /* ACTIVO */
+    .nav-link i { font-size: 1.5rem; }
     .nav-link.active {
         color: var(--ug-gold-bright) !important;
         border: none !important;
@@ -293,42 +294,52 @@ main {
         border-radius: 0 !important;
     }
 
+    /* 4. ✅ MODAL — FIX REAL */
+    /* El contenedor Bootstrap ocupa todo el viewport pero sin bloquear */
+    #modalDetallesRuta {
+        position: fixed !important;  /* ← clave: fixed al viewport, no al main */
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        pointer-events: none;
+        z-index: 1090 !important;
+    }
 
-/* 4. MODAL AJUSTADO (DEBAJO DEL NAV INFERIOR) */
+    /* El dialog se posiciona desde el bottom del viewport */
     .modal-abs-top {
-        /* Posicionamiento exacto */
+        position: fixed !important;
         top: auto !important;
-        bottom: 100px !important; /* 25px del bottom del nav + 65px de su altura + 10px de margen */
+        bottom: 110px !important; /* 25px + 65px nav + 20px margen */
         left: 50% !important;
-        transform: translateX(-50%) translateY(20px) !important; /* Empieza un poco abajo */
-        
-        /* Estética */
-        width: 90% !important;
-        max-width: 360px;
+        right: auto !important;
+        transform: translateX(-50%) !important; /* solo horizontal */
+        width: 90vw !important;
+        max-width: 360px !important;
         margin: 0 !important;
-        z-index: 1050;
-        transition: all 0.3s ease-in-out;
+        z-index: 1091 !important;
+        pointer-events: auto;
+        /* Animación solo en Y, sin conflicto con translateX */
+        transition: opacity 0.3s ease, bottom 0.3s ease;
+        opacity: 0;
     }
 
-    /* Animación cuando el modal se muestra */
-    .modal.show .modal-abs-top {
-        transform: translateX(-50%) translateY(0) !important;
-        opacity: 1;
+    #modalDetallesRuta.show .modal-abs-top {
+        opacity: 1 !important;
+        bottom: 110px !important;
+        transform: translateX(-50%) !important; /* sin translateY */
     }
 
-    /* Ajuste del contenido del modal para que combine con el estilo Glass */
     .modal-content {
         background-color: white !important;
-        backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: white !important;
+        border: none !important;
+        border-radius: 20px !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
     }
 
     /* OCULTAR TODO LO DEMÁS */
-    .sidebar hr, 
-    .sidebar .nav-text, 
-    .sidebar .mt-auto, 
-    .sidebar .user-section-wrapper {
-        display: none !important;
-    }
+    .sidebar hr,
+    .sidebar .nav-text,
+    .sidebar .mt-auto,
+    .sidebar .user-section-wrapper { display: none !important; }
 }
