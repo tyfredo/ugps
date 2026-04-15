@@ -1,5 +1,5 @@
 :root {
-  --sidebar-dark: #1a1b1f;
+  --sidebar-dark: rgba(26, 27, 31, 0.9) !important;
   --ug-gold-bright: #f7db3c; 
   --ug-blue-muted: #4e6a88;
   --bee-background: #f1f3f5;
@@ -29,6 +29,7 @@
     overflow-x: hidden;
     white-space: nowrap;
 }
+
 
 .sidebar:hover {
     width: 300px; /* Antes 280px - Más espacio para el texto */
@@ -88,6 +89,7 @@
     border-radius: 4px;              /* Cuadramos para la línea */
     border-left: 4px solid var(--ug-gold-bright); /* Creamos la línea vertical */
     padding-left: calc(1rem - 4px) !important; /* Ajustamos padding para compensar el borde */
+    font-weight: 700;
 }
 
 /* Opcional: un ligero resplandor para que la línea resalte más */
@@ -109,4 +111,224 @@
 /* Hover personalizado para nav-links que no están activos */
 .hover-nav:hover {
     background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* 1. El contenedor principal debe tener la misma transición que el sidebar */
+main {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    transition: margin-left 0.3s ease, width 0.3s ease; /* Sincroniza el movimiento */
+}
+
+/* 2. El modal debe ser absoluto para "pegarse" al borde izquierdo del main */
+.modal-abs-top {
+    position: absolute !important;
+    top: 25px;
+    left: 70px; /* Esta distancia será fija respecto al borde del sidebar */
+    margin: 0 !important;
+    width: 340px;
+    z-index: 1050;
+    pointer-events: auto; /* Permite clics dentro de la tarjeta */
+}
+
+/* 3. Evitar que el contenedor oculto del modal bloquee el mapa */
+#modalDetallesRuta {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Los clics pasan al mapa */
+    display: block !important; /* Mantenlo en el DOM para la animación */
+    visibility: hidden;
+}
+
+#modalDetallesRuta.show {
+    visibility: visible;
+}
+
+/* 4. Animación suave */
+#modalDetallesRuta.modal.fade .modal-dialog {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+#modalDetallesRuta.modal.show .modal-dialog {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Clase para el link activo en el sidebar */
+.nav-link.active-click {
+    color: var(--ug-gold-bright) !important;
+    border-left: 4px solid var(--ug-gold-bright);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* --- RESPONSIVE DESIGN (Actualizado) --- */
+
+@media (max-width: 768px) {
+
+    /* 1. LAYOUT GENERAL INMERSIVO */
+    .d-flex.vh-100 {
+        display: block !important; 
+        position: relative;
+    }
+
+    main {
+        width: 100vw !important;
+        height: 100vh !important;
+        padding: 0 !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #mapa {
+        height: 100% !important;
+        width: 100% !important;
+        border-radius: 5px !important;
+    }
+
+    /* 2. 🔝 LOGO FLOTANTE (ARRIBA) */
+    .sidebar {
+        background: transparent !important;
+        border: none !important;
+        position: static;
+    }
+
+    .sidebar > a {
+        position: fixed !important;
+        top: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: auto !important;
+        min-width: 180px;
+        z-index: 1100;
+
+        /* Glass */
+        background-color: rgba(26, 27, 31, 0.9) !important; 
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 242, 125, 0.2) !important;
+        border-radius: 30px !important;
+        padding: 10px 20px !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px;
+    }
+
+    .sidebar .logo-container {
+        display: flex !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .sidebar .logo-img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    .logo-text {
+        font-size: 1.2rem !important;
+        line-height: 1;
+    }
+
+    .sidebar .logo-container span:last-child {
+        font-size: 0.6rem !important;
+    }
+
+    /* 3. 🔻 NAV INFERIOR FLOTANTE */
+    .sidebar ul.nav {
+        position: fixed !important;
+        bottom: 25px !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: 85% !important;
+        max-width: 360px;
+        height: 65px !important;
+
+        /* Glass */
+        background-color: rgba(26, 27, 31, 0.9) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 25px !important;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center;
+        padding: 0 20px !important;
+        z-index: 1100;
+        margin: 0 !important;
+    }
+
+    /* ICONOS */
+    .nav-link {
+        padding: 10px !important;
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.6) !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-link i {
+        font-size: 1.5rem;
+    }
+
+    /* ACTIVO */
+    .nav-link.active {
+        color: var(--ug-gold-bright) !important;
+        border: none !important;
+        border-bottom: 3px solid var(--ug-gold-bright) !important;
+        border-radius: 0 !important;
+    }
+
+
+/* 4. MODAL AJUSTADO (DEBAJO DEL NAV INFERIOR) */
+    .modal-abs-top {
+        /* Posicionamiento exacto */
+        top: auto !important;
+        bottom: 100px !important; /* 25px del bottom del nav + 65px de su altura + 10px de margen */
+        left: 50% !important;
+        transform: translateX(-50%) translateY(20px) !important; /* Empieza un poco abajo */
+        
+        /* Estética */
+        width: 90% !important;
+        max-width: 360px;
+        margin: 0 !important;
+        z-index: 1050;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Animación cuando el modal se muestra */
+    .modal.show .modal-abs-top {
+        transform: translateX(-50%) translateY(0) !important;
+        opacity: 1;
+    }
+
+    /* Ajuste del contenido del modal para que combine con el estilo Glass */
+    .modal-content {
+        background-color: white !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: white !important;
+    }
+
+    /* OCULTAR TODO LO DEMÁS */
+    .sidebar hr, 
+    .sidebar .nav-text, 
+    .sidebar .mt-auto, 
+    .sidebar .user-section-wrapper {
+        display: none !important;
+    }
 }
