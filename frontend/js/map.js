@@ -26,6 +26,29 @@ function initMap() {
     // 4. Agregar el marcador al mapa
     busMarker = L.marker(DICIS_CENTER, {icon: transportIcon}).addTo(map);
 
+    // Le ponemos nuestra animación al nacer
+    if (busMarker.getElement()) {
+        busMarker.getElement().classList.add('uber-motion');
+    }
+
+    // --- LA MAGIA CONTRA EL BUG DEL ZOOM ---
+    // Cuando el usuario empieza a hacer zoom: Apagamos la animación
+    map.on('zoomstart', function() {
+        if (busMarker && busMarker.getElement()) {
+            busMarker.getElement().classList.remove('uber-motion');
+        }
+    });
+
+    // Cuando el usuario termina el zoom: Prendemos la animación
+    map.on('zoomend', function() {
+        if (busMarker && busMarker.getElement()) {
+            // Le damos 100 milisegundos a Leaflet para que termine de acomodar el mapa
+            setTimeout(() => {
+                busMarker.getElement().classList.add('uber-motion');
+            }, 100);
+        }
+    });
+
     // --- CORRECCIÓN: Evita el error de la pantalla gris en Bootstrap ---
     setTimeout(() => {
         map.invalidateSize();
