@@ -343,3 +343,10 @@ main {
     .sidebar .mt-auto,
     .sidebar .user-section-wrapper { display: none !important; }
 }
+
+/* --- EFECTO ANIMACION PARA EL CAMIÓN --- */
+.leaflet-marker-icon {
+    /* Como el Arduino manda datos cada 5s, hacemos que la animación dure 4.5s 
+       para que el camión casi nunca se detenga entre actualizaciones */
+    transition: margin-left 0.3s ease, margin-top 0.3s ease, transform 4.5s linear !important;
+}

@@ -33,13 +33,20 @@ function initMap() {
 }
 
 // Función para mover el camión en tiempo real
+// Función para mover el camión en tiempo real con Efecto Uber
 window.updateMarkerPosition = function(lat, lng) {
     if (busMarker) {
         const newLatLng = new L.LatLng(lat, lng);
+        
+        // 1. Leaflet actualiza la coordenada, pero tu CSS nuevo hará que se deslice visualmente
         busMarker.setLatLng(newLatLng);
         
-        // Efecto tipo Uber: la cámara sigue al camión suavemente
-        map.panTo(newLatLng);
+        // 2. Hacemos que la cámara siga al camión con la misma suavidad
+        map.panTo(newLatLng, {
+            animate: true,
+            duration: 4.5, // Emparejado con la duración del CSS
+            easeLinearity: 1 // Movimiento constante sin frenar de golpe
+        });
     }
 };
 
