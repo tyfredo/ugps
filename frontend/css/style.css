@@ -6,7 +6,7 @@
   --ug-gold-dark: rgba(255, 255, 255, 0.05);
 }
 
-/* Colores personalizados */
+/* Colores personalizados y Utilidades */
 .bg-sidebar-dark { background-color: var(--sidebar-dark) !important; }
 .text-ug-gold-bright { color: var(--ug-gold-bright) !important; }
 .text-col-dark { color: var(--sidebar-dark) !important; }
@@ -14,15 +14,14 @@
 .bg-ug-blue-muted { background-color: var(--ug-blue-muted) !important; }
 .bg-ug-gold-dark { background-color: var(--ug-gold-dark) !important; }
 .bg-ug-hover { background-color: rgba(248, 239, 166, 0.05) !important; }
-
-/* Utilidades de transición */
 .transition-base { transition: all 0.2s ease-in-out; }
 .transition-fade { transition: opacity 0.2s ease, visibility 0.2s ease; }
+.fw-black { font-weight: 900; }
+.fs-small { font-size: 0.8rem; }
 
-/* --- SIDEBAR ANIMATION --- */
-/* --- CONFIGURACIÓN DE TAMAÑOS --- */
+/* --- ANIMACIÓN Y ESTILO DEL SIDEBAR (ESCRITORIO) --- */
 .sidebar {
-    width: 110px; /* Antes 85px - Más presencia visual */
+    width: 110px;
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     padding-left: 1.2rem !important;
     padding-right: 1.2rem !important;
@@ -30,150 +29,109 @@
     white-space: nowrap;
 }
 
-
 .sidebar:hover {
-    width: 300px; /* Antes 280px - Más espacio para el texto */
+    width: 300px;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition-delay: 0.15s;
 }
 
-/* Hacemos los iconos más grandes para que coincidan con la nueva escala */
 .sidebar .bi {
-    font-size: 1.5rem !important; /* Iconos más legibles */
+    font-size: 1.5rem !important;
     min-width: 35px;
 }
 
-/* Ajuste del logo para la nueva barra */
 .sidebar .logo-img {
-    width: 65px; /* Antes 50px */
+    width: 65px;
     height: 65px;
     object-fit: cover;
 }
 
-/* Al pasar el mouse, activamos las utilidades de Bootstrap */
 .sidebar:hover .transition-fade {
     opacity: 1 !important;
     visibility: visible !important;
     transition-delay: 0.1s;
 }
 
-/* Efecto para el icono de cerrar sesión */
 .hover-gold:hover {
     color: var(--ug-gold-bright) !important;
     transform: translateX(3px);
     transition: all 0.2s ease;
     filter: drop-shadow(0 0 5px rgba(255, 242, 125, 0.5)); 
-
 }
 
-/* Asegura que la sección de usuario aparezca con el mismo delay que el resto */
-.sidebar:hover {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transition-delay: 0.15s;
+.user-section .bg-ug-gold-dark { background-color: rgba(255, 255, 255, 0.05) !important; }
+.logo-text { filter: drop-shadow(0 0 5px rgba(255, 242, 125, 0.5)); }
 
-}
-
-/* Ajuste opcional para el contenedor del avatar */
-.user-section .bg-ug-gold-dark {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-.logo-text {
-    filter: drop-shadow(0 0 5px rgba(255, 242, 125, 0.5)); 
-}
-
-
-/* --- ESTILO PARA INDICADOR VERTICAL ACTIVO --- */
+/* Indicadores visuales de Navegación */
 .nav-link.active {
-    background-color: transparent !important; /* Quitamos el fondo redondeado */
-    color: var(--ug-gold-bright) !important;   /* Mantenemos el texto brillante */
-    border-radius: 4px;              /* Cuadramos para la línea */
-    border-left: 4px solid var(--ug-gold-bright); /* Creamos la línea vertical */
-    padding-left: calc(1rem - 4px) !important; /* Ajustamos padding para compensar el borde */
+    background-color: transparent !important;
+    color: var(--ug-gold-bright) !important;
+    border-radius: 4px;
+    border-left: 4px solid var(--ug-gold-bright);
+    padding-left: calc(1rem - 4px) !important;
     font-weight: 700;
 }
+.nav-link.active i { filter: drop-shadow(0 0 5px rgba(255, 242, 125, 0.5)); }
+.hover-nav:hover { background-color: rgba(255, 255, 255, 0.05) !important; }
 
-/* Opcional: un ligero resplandor para que la línea resalte más */
-.nav-link.active i {
-    filter: drop-shadow(0 0 5px rgba(255, 242, 125, 0.5));
-}
-
-/* Estilos de Texto Específicos */
-.fw-black { font-weight: 900; }
-.fs-small { font-size: 0.8rem; }
-
-/* --- LEAFLET FIXES --- */
+/* --- MAPA Y LEAFLET --- */
 .leaflet-container { 
     z-index: 1 !important; 
     font-family: inherit;
 }
 .z-3 { z-index: 1000 !important; }
 
-/* Hover personalizado para nav-links que no están activos */
-.hover-nav:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+/* Animación tipo Uber para el camión */
+.uber-motion {
+    transition: margin-left 0.3s ease, margin-top 0.3s ease, transform 4.5s linear !important;
 }
 
-/* 1. El contenedor principal debe tener la misma transición que el sidebar */
+/* --- ESTRUCTURA PRINCIPAL Y MODAL DE RUTA --- */
 main {
     flex-grow: 1;
     position: relative;
     overflow: hidden;
-    transition: margin-left 0.3s ease, width 0.3s ease; /* Sincroniza el movimiento */
+    transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-/* 2. El modal debe ser absoluto para "pegarse" al borde izquierdo del main */
 .modal-abs-top {
     position: absolute !important;
     top: 25px;
-    left: 70px; /* Esta distancia será fija respecto al borde del sidebar */
+    left: 70px;
     margin: 0 !important;
     width: 340px;
     z-index: 1050;
-    pointer-events: auto; /* Permite clics dentro de la tarjeta */
+    pointer-events: auto;
 }
 
-/* 3. Evitar que el contenedor oculto del modal bloquee el mapa */
 #modalDetallesRuta {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Los clics pasan al mapa */
-    display: block !important; /* Mantenlo en el DOM para la animación */
+    pointer-events: none;
+    display: block !important;
     visibility: hidden;
 }
 
-#modalDetallesRuta.show {
-    visibility: visible;
-}
-
-/* 4. Animación suave */
+#modalDetallesRuta.show { visibility: visible; }
 #modalDetallesRuta.modal.fade .modal-dialog {
     transform: translateX(-20px);
     opacity: 0;
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
 }
-
 #modalDetallesRuta.modal.show .modal-dialog {
     transform: translateX(0);
     opacity: 1;
 }
 
-/* Clase para el link activo en el sidebar */
-.nav-link.active-click {
-    color: var(--ug-gold-bright) !important;
-    border-left: 4px solid var(--ug-gold-bright);
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* --- RESPONSIVE DESIGN (Actualizado) --- */
-
+/* ===================================================
+   RESPONSIVE DESIGN (APP MÓVIL)
+   =================================================== */
 @media (max-width: 768px) {
-
-    /* 1. LAYOUT */
-
-    /* ✅ FIX: mapa borde a borde */
+    /* Ajustes generales de pantalla completa */
     main {
         position: fixed !important;
         top: 0 !important;
@@ -183,11 +141,11 @@ main {
         padding: 0 !important;
         margin: 0 !important;
         overflow: visible !important;
-        background: transparent !important; /* ✅ quita el fondo oscuro del main */
+        background: transparent !important;
     }
 
     #mapa {
-        position: fixed !important;   /* ✅ fixed directo al viewport */
+        position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         width: 100vw !important;
@@ -198,32 +156,21 @@ main {
         padding: 0 !important;
     }
 
-    /* ✅ asegurar que Leaflet también llene todo */
-    .leaflet-container {
-        width: 100% !important;
-        height: 100% !important;
-    }
-
-    /* ✅ quitar el padding del body de Bootstrap */
-    html, body {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
+    .leaflet-container { width: 100% !important; height: 100% !important; }
+    html, body { padding: 0 !important; margin: 0 !important; }
     .d-flex.vh-100 {
         display: block !important;
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         width: 100vw !important;
-        height: 100vh !important;         /* fallback */
-        height: 100dvh !important;        /* ✅ dynamic viewport height — clave en mobile */
+        height: 100vh !important;
+        height: 100dvh !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    
-    /* 2. LOGO FLOTANTE */
+    /* Logo superior flotante */
     .sidebar { background: transparent !important; border: none !important; position: static; }
     .sidebar > a {
         position: fixed !important;
@@ -256,7 +203,7 @@ main {
     .logo-text { font-size: 1.2rem !important; line-height: 1; }
     .sidebar .logo-container span:last-child { font-size: 0.6rem !important; }
 
-    /* 3. NAV INFERIOR */
+    /* Barra de Navegación Inferior */
     .sidebar ul.nav {
         position: fixed !important;
         bottom: 25px !important;
@@ -286,7 +233,6 @@ main {
         align-items: center;
         justify-content: center;
     }
-    .nav-link i { font-size: 1.5rem; }
     .nav-link.active {
         color: var(--ug-gold-bright) !important;
         border: none !important;
@@ -294,10 +240,9 @@ main {
         border-radius: 0 !important;
     }
 
-    /* 4. ✅ MODAL — FIX REAL */
-    /* El contenedor Bootstrap ocupa todo el viewport pero sin bloquear */
+    /* Modal de Ruta Activa en Celular */
     #modalDetallesRuta {
-        position: fixed !important;  /* ← clave: fixed al viewport, no al main */
+        position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         width: 100% !important;
@@ -305,31 +250,26 @@ main {
         pointer-events: none;
         z-index: 1090 !important;
     }
-
-    /* El dialog se posiciona desde el bottom del viewport */
     .modal-abs-top {
         position: fixed !important;
         top: auto !important;
-        bottom: 110px !important; /* 25px + 65px nav + 20px margen */
+        bottom: 110px !important;
         left: 50% !important;
         right: auto !important;
-        transform: translateX(-50%) !important; /* solo horizontal */
+        transform: translateX(-50%) !important;
         width: 90vw !important;
         max-width: 360px !important;
         margin: 0 !important;
         z-index: 1091 !important;
         pointer-events: auto;
-        /* Animación solo en Y, sin conflicto con translateX */
         transition: opacity 0.3s ease, bottom 0.3s ease;
         opacity: 0;
     }
-
     #modalDetallesRuta.show .modal-abs-top {
         opacity: 1 !important;
         bottom: 110px !important;
-        transform: translateX(-50%) !important; /* sin translateY */
+        transform: translateX(-50%) !important;
     }
-
     .modal-content {
         background-color: white !important;
         border: none !important;
@@ -337,57 +277,76 @@ main {
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
     }
 
-    /* OCULTAR TODO LO DEMÁS */
-    .sidebar hr,
-    .sidebar .nav-text,
-    .sidebar .mt-auto,
-    .sidebar .user-section-wrapper { display: none !important; }
+    /* Ocultar elementos sobrantes en móvil */
+    .sidebar hr, .sidebar .nav-text, .sidebar .mt-auto, .sidebar .user-section-wrapper { display: none !important; }
 }
 
+/* ===================================================
+   SISTEMA DE HORARIOS - CSS DEFINITIVO
+   =================================================== */
 
-.uber-motion {
-    transition: margin-left 0.3s ease, margin-top 0.3s ease, transform 4.5s linear !important;
+/* Forzar Fondo Oscuro Sólido */
+#modalHorarios .modal-content {
+    background-color: #1a1b1f !important;
+    color: white !important;
+    border: none !important;
 }
 
-/* --- ESTILOS PARA HORARIOS --- */
+/* Pestañas Superiores (Tabs) */
 .custom-tabs .nav-link {
-    color: rgba(255,255,255,0.5);
-    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.5) !important;
+    background: rgba(255,255,255,0.05) !important;
     margin: 0 5px;
-    transition: all 0.3s ease;
+    white-space: nowrap;
+    border-radius: 50rem !important;
 }
 .custom-tabs .nav-link.active {
     background-color: var(--ug-gold-bright) !important;
     color: #000 !important;
 }
 
+/* Cuadrícula Inteligente */
+#lista-ascenso, #lista-descenso {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en celular */
+    gap: 10px;
+}
+
+@media (min-width: 768px) {
+    #lista-ascenso, #lista-descenso {
+        grid-template-columns: repeat(4, 1fr); /* 4 columnas en Computadora */
+        gap: 15px;
+    }
+}
+
+/* Botones de las Horas (Limpios y espaciados) */
 .time-badge {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #ccc;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e0e0e0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 12px 4px !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
     font-weight: 500;
-    transition: all 0.3s ease;
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(25% - 6px); /* 4 columnas */
+    width: 100% !important; 
+    margin: 0 !important;
 }
 
-
-/* El estilo de la hora iluminada */
+/* Hora iluminada (Próximo Camión) */
 .time-badge.next-bus {
-    background-color: var(--ug-gold-bright);
-    color: #000;
-    font-weight: 800;
+    background-color: var(--ug-gold-bright) !important;
+    color: #000 !important;
+    font-weight: 800 !important;
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(247, 219, 60, 0.3);
-    border-color: var(--ug-gold-bright);
+    box-shadow: 0 4px 15px rgba(247, 219, 60, 0.25);
+    border-color: var(--ug-gold-bright) !important;
 }
 
-/* La bolita palpitante */
+/* Bolita palpitante */
 .live-dot {
     width: 8px;
     height: 8px;
@@ -403,48 +362,32 @@ main {
     100% { transform: scale(0.8); opacity: 0.5; }
 }
 
-/* 1. Forzar al modal a estar por encima de todo */
-#modalHorarios { z-index: 9999 !important; }
-.modal-backdrop { z-index: 9998 !important; }
-
-/* 2. DISEÑO MÓVIL (Por defecto: 3 columnas legibles) */
-#lista-ascenso, #lista-descenso {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-}
-
-/* 3. DISEÑO DE ESCRITORIO (Más de 768px: 5 columnas) */
-@media (min-width: 768px) {
-    #lista-ascenso, #lista-descenso {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 12px;
-    }
-}
-
-/* 4. Ajuste de las píldoras (Más altas y con letra más grande) */
-.time-badge {
-    width: 100% !important; 
-    margin: 0 !important;
-    padding: 12px 4px !important; /* Más altura para el "dedo" */
-    font-size: 0.95rem !important; /* Letra más grande */
-    text-align: center;
-    border-radius: 10px;
-}
-
-/* 5. Asegurar que en celular tome toda la pantalla sin bordes redondeados raros */
+/* Modal Celular (Pantalla Completa) */
 @media (max-width: 767px) {
+    /* 1. Asegurar que el modal flote por encima del menú inferior */
+    #modalHorarios { z-index: 1150 !important; }
+    
+    /* 2. Tamaño y posición de la caja flotante */
+    #modalHorarios .modal-dialog {
+        margin: auto !important;
+        width: 90vw !important;
+        max-width: 400px !important;
+        height: calc(100dvh - 130px) !important; /* Altura controlada para dejar libre el menú */
+    }
+    
+    /* 3. El contenedor: CRÍTICO usar flex column para que el body pueda hacer scroll */
     #modalHorarios .modal-content {
-        border-radius: 0 !important;
+        border-radius: 20px !important; 
         height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important; 
+        box-shadow: 0px 15px 40px rgba(0,0,0,0.6) !important; /* Sombra fuerte para resaltar sobre el mapa sin oscurecer toda la pantalla */
     }
-    #modalHorarios .modal-body {
-        padding-bottom: 90px !important; /* Espacio para no chocar con el nav inferior */
-    }
-}
 
-.custom-tabs .nav-link {
-    white-space: nowrap;
-    padding: 10px 5px;
-    font-size: 0.95rem;
+    /* 4. Reactivar el scroll interno */
+    #modalHorarios .modal-body {
+        overflow-y: auto !important; 
+        -webkit-overflow-scrolling: touch !important; /* Activa el scroll suave en iOS/Android */
+        padding-bottom: 20px !important; 
+    }
 }
