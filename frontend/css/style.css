@@ -376,9 +376,6 @@ main {
     width: calc(25% - 6px); /* 4 columnas */
 }
 
-@media (max-width: 500px) {
-    .time-badge { width: calc(33.33% - 6px); } /* 3 columnas en celular */
-}
 
 /* El estilo de la hora iluminada */
 .time-badge.next-bus {
@@ -404,4 +401,50 @@ main {
     0% { transform: scale(0.8); opacity: 0.5; }
     50% { transform: scale(1.5); opacity: 1; }
     100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+/* 1. Forzar al modal a estar por encima de todo */
+#modalHorarios { z-index: 9999 !important; }
+.modal-backdrop { z-index: 9998 !important; }
+
+/* 2. DISEÑO MÓVIL (Por defecto: 3 columnas legibles) */
+#lista-ascenso, #lista-descenso {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+/* 3. DISEÑO DE ESCRITORIO (Más de 768px: 5 columnas) */
+@media (min-width: 768px) {
+    #lista-ascenso, #lista-descenso {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+    }
+}
+
+/* 4. Ajuste de las píldoras (Más altas y con letra más grande) */
+.time-badge {
+    width: 100% !important; 
+    margin: 0 !important;
+    padding: 12px 4px !important; /* Más altura para el "dedo" */
+    font-size: 0.95rem !important; /* Letra más grande */
+    text-align: center;
+    border-radius: 10px;
+}
+
+/* 5. Asegurar que en celular tome toda la pantalla sin bordes redondeados raros */
+@media (max-width: 767px) {
+    #modalHorarios .modal-content {
+        border-radius: 0 !important;
+        height: 100% !important;
+    }
+    #modalHorarios .modal-body {
+        padding-bottom: 90px !important; /* Espacio para no chocar con el nav inferior */
+    }
+}
+
+.custom-tabs .nav-link {
+    white-space: nowrap;
+    padding: 10px 5px;
+    font-size: 0.95rem;
 }
