@@ -34,9 +34,9 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link text-white-50 hover-nav d-flex align-items-center p-3 transition-base">
+                <a href="#" id="linkHorarios" data-bs-toggle="modal" data-bs-target="#modalHorarios" class="nav-link text-white-50 hover-nav d-flex align-items-center p-3 transition-base">
                     <i class="bi bi-clock-history text-center"></i> 
-                    <span class="nav-text ms-3 fs-5 opacity-0 invisible transition-fade">Historial</span>
+                    <span class="nav-text ms-3 fs-5 opacity-0 invisible transition-fade">Horarios</span>
                 </a>
             </li>
             <li>
@@ -99,6 +99,50 @@
                                     <h6 class="fw-bold mb-0 text-dark">ENMS. Salamanca</h6>
                                     <small class="text-muted">Destino actual</small>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modalHorarios" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden bg-sidebar-dark text-white">
+                        <div class="modal-header border-secondary border-opacity-25 p-4">
+                            <div>
+                                <h4 class="fw-bold mb-0 text-ug-gold-bright">Horarios del Camión</h4>
+                                <small class="text-white-50">Semestre Enero-Junio 2026</small>
+                            </div>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            
+                            <ul class="nav nav-pills nav-fill mb-4 custom-tabs" id="horariosTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active rounded-pill fw-bold" id="ascenso-tab" data-bs-toggle="tab" data-bs-target="#ascenso" type="button" role="tab">Hacia DICIS</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link rounded-pill fw-bold" id="descenso-tab" data-bs-toggle="tab" data-bs-target="#descenso" type="button" role="tab">Hacia ENMS 2</button>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" id="horariosTabContent">
+                                
+                                <div class="tab-pane fade show active" id="ascenso" role="tabpanel">
+                                    <h6 class="text-white-50 mb-3 border-bottom border-secondary pb-2"><i class="bi bi-geo-alt text-ug-gold-bright me-2"></i>Desde ENMS 2 a DICIS</h6>
+                                    <div class="d-flex flex-wrap gap-2 mb-4" id="lista-ascenso">
+                                        </div>
+
+                                    <h6 class="text-white-50 mb-3 border-bottom border-secondary pb-2 mt-4"><i class="bi bi-signpost-split text-ug-gold-bright me-2"></i>Paradas Especiales</h6>
+                                    <div class="d-flex flex-column gap-2 mb-4" id="lista-especiales">
+                                        </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="descenso" role="tabpanel">
+                                    <h6 class="text-white-50 mb-3 border-bottom border-secondary pb-2"><i class="bi bi-geo-alt text-ug-gold-bright me-2"></i>De DICIS a ENMS 2</h6>
+                                    <div class="d-flex flex-wrap gap-2 mb-4" id="lista-descenso">
+                                        </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
