@@ -391,3 +391,43 @@ main {
         padding-bottom: 20px !important; 
     }
 }
+
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    background-color: var(--sidebar-dark); /* Usa el gris oscuro elegante de tu paleta */
+    z-index: 99999; /* Asegura que tape absolutamente todo el mapa y los modales */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.6s;
+}
+
+/* El logo en estado normal (Latiendo suavemente) */
+.splash-logo {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    animation: pulse-splash 1.2s infinite alternate ease-in-out;
+    transition: transform 0.7s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.5s ease;
+}
+
+@keyframes pulse-splash {
+    0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(247, 219, 60, 0.2)); }
+    100% { transform: scale(1.1); filter: drop-shadow(0 0 30px rgba(247, 219, 60, 0.6)); }
+}
+
+/* Las clases que activaremos con JavaScript para hacer el efecto de apertura */
+.splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; 
+}
+
+.splash-screen.fade-out .splash-logo {
+    transform: scale(8); /* Efecto de zoom masivo a lo 'X' */
+    opacity: 0;
+}

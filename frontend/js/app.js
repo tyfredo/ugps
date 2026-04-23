@@ -123,3 +123,29 @@ document.addEventListener('DOMContentLoaded', () => {
         modalHorarios.addEventListener('show.bs.modal', renderizarHorarios);
     }
 });
+
+// ==========================================
+// CONTROL DEL SPLASH SCREEN
+// ==========================================
+let splashOculto = false;
+
+window.ocultarSplashScreen = function() {
+    if (splashOculto) return;
+    splashOculto = true;
+    
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        // Le damos un respiro de medio segundo para asegurar que Leaflet dibujó el mapa
+        setTimeout(() => {
+            splash.classList.add('fade-out');
+            
+            // Lo eliminamos del código después de la animación para no gastar RAM
+            setTimeout(() => splash.remove(), 1000);
+        }, 600); 
+    }
+};
+
+// Respaldo de seguridad: Si Firebase tarda demasiado por mala conexión celular, quitamos el splash de todos modos a los 4 segundos.
+window.addEventListener('load', () => {
+    setTimeout(window.ocultarSplashScreen, 4000);
+});

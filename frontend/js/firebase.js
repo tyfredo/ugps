@@ -31,6 +31,11 @@ onValue(camionRef, (snapshot) => {
       
   
       window.updateMarkerPosition(datos.lat, datos.lng);
+      
+      if (typeof window.ocultarSplashScreen === 'function') {
+          window.ocultarSplashScreen();
+      }
+      
   } else {
       console.warn("No se encontraron coordenadas válidas en Firebase.");
   }

@@ -1,7 +1,7 @@
 let map;
-let busMarker;
+let busMarker = null; // Inicializamos el camión como "nulo" (invisible)
 
-// Coordenadas exactas de la DICIS (UG Campus Irapuato-Salamanca)
+// Coordenadas de la DICIS (Solo las usaremos como fondo inicial)
 const DICIS_CENTER = [20.5073163, -101.193337];
 const INITIAL_ZOOM = 16; 
 
@@ -9,7 +9,7 @@ const INITIAL_ZOOM = 16;
 const BUS_ICON_URL = 'https://img.icons8.com/color/48/bus.png'; 
 
 function initMap() {
-    // 1. Inicializar el mapa centrado en la DICIS
+    // 1. Inicializar el mapa (Se centra en DICIS solo para que no haya una pantalla gris)
     map = L.map('mapa').setView(DICIS_CENTER, INITIAL_ZOOM);
 
     // 2. Capa de calles gratuita de OpenStreetMap
@@ -17,32 +17,15 @@ function initMap() {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    const transportIcon = L.icon({
-        iconUrl: BUS_ICON_URL,
-        iconSize: [45, 45], 
-        iconAnchor: [22, 22] 
-    });
-
-    // 4. Agregar el marcador al mapa
-    busMarker = L.marker(DICIS_CENTER, {icon: transportIcon}).addTo(map);
-
-    // Le ponemos nuestra animación al nacer
-    if (busMarker.getElement()) {
-        busMarker.getElement().classList.add('uber-motion');
-    }
-
     // --- LA MAGIA CONTRA EL BUG DEL ZOOM ---
-    // Cuando el usuario empieza a hacer zoom: Apagamos la animación
     map.on('zoomstart', function() {
         if (busMarker && busMarker.getElement()) {
             busMarker.getElement().classList.remove('uber-motion');
         }
     });
 
-    // Cuando el usuario termina el zoom: Prendemos la animación
     map.on('zoomend', function() {
         if (busMarker && busMarker.getElement()) {
-            // Le damos 100 milisegundos a Leaflet para que termine de acomodar el mapa
             setTimeout(() => {
                 busMarker.getElement().classList.add('uber-motion');
             }, 100);
@@ -56,22 +39,41 @@ function initMap() {
 }
 
 // Función para mover el camión en tiempo real
-// Función para mover el camión en tiempo real con Efecto Uber
 window.updateMarkerPosition = function(lat, lng) {
-    if (busMarker) {
-        const newLatLng = new L.LatLng(lat, lng);
+    const newLatLng = new L.LatLng(lat, lng);
+
+    // 🌟 LA MAGIA DE LA PRIMERA CARGA 🌟
+    if (!busMarker) {
+        // Si el camión NO existe, significa que es el primer dato de Firebase
+        const transportIcon = L.icon({
+            iconUrl: BUS_ICON_URL,
+            iconSize: [45, 45], 
+            iconAnchor: [22, 22] 
+        });
+
+        // 1. Lo creamos directamente en su ubicación real
+        busMarker = L.marker(newLatLng, {icon: transportIcon}).addTo(map);
         
-        // 1. Leaflet actualiza la coordenada, pero tu CSS nuevo hará que se deslice visualmente
+        // 2. Centramos el mapa de golpe a esa ubicación (sin animar)
+        map.setView(newLatLng, INITIAL_ZOOM);
+        
+        // 3. Le inyectamos la clase de animación 'uber-motion' para los futuros movimientos
+        setTimeout(() => {
+            if (busMarker.getElement()) {
+                busMarker.getElement().classList.add('uber-motion');
+            }
+        }, 100);
+
+    } else {
+        // Si el camión YA existe (movimientos posteriores), hacemos la animación suave
         busMarker.setLatLng(newLatLng);
         
-        // 2. Hacemos que la cámara siga al camión con la misma suavidad
         map.panTo(newLatLng, {
             animate: true,
-            duration: 4.5, // Emparejado con la duración del CSS
-            easeLinearity: 1 // Movimiento constante sin frenar de golpe
+            duration: 4.5, 
+            easeLinearity: 1 
         });
     }
 };
 
-// --- CORRECCIÓN: Ejecutar la función cuando el HTML esté listo ---
-document.addEventListener('DOMContentLoaded', initMap);
+// --- (Nota: El arranque de initMap() ahora lo maneja exclusivamente app.js) ---
