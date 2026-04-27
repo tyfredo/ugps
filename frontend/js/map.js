@@ -6,7 +6,7 @@ const DICIS_CENTER = [20.5073163, -101.193337];
 const INITIAL_ZOOM = 16; 
 
 // URL de un icono de AUTOBÚS 
-const BUS_ICON_URL = 'https://img.icons8.com/color/48/bus.png'; 
+const BUS_ICON_URL = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 120"><rect width="60" height="120" rx="12" fill="%23f7db3c" stroke="%231a1b1f" stroke-width="4"/><rect x="5" y="20" width="50" height="30" rx="4" fill="%231a1b1f"/><rect x="5" y="80" width="50" height="25" rx="4" fill="%231a1b1f"/><line x1="30" y1="5" x2="30" y2="15" stroke="%231a1b1f" stroke-width="3"/></svg>';
 
 function initMap() {
     // 1. Inicializar el mapa (Se centra en DICIS solo para que no haya una pantalla gris)
@@ -39,40 +39,32 @@ function initMap() {
 }
 
 // Función para mover el camión en tiempo real
-window.updateMarkerPosition = function(lat, lng) {
+window.updateMarkerPosition = function(lat, lng, angulo) {
     const newLatLng = new L.LatLng(lat, lng);
 
-    // 🌟 LA MAGIA DE LA PRIMERA CARGA 🌟
     if (!busMarker) {
-        // Si el camión NO existe, significa que es el primer dato de Firebase
         const transportIcon = L.icon({
             iconUrl: BUS_ICON_URL,
-            iconSize: [45, 45], 
-            iconAnchor: [22, 22] 
+            iconSize: [40, 40], 
+            iconAnchor: [20, 20] 
         });
 
-        // 1. Lo creamos directamente en su ubicación real
-        busMarker = L.marker(newLatLng, {icon: transportIcon}).addTo(map);
+        // Creamos el marcador y le inyectamos el ángulo inicial
+        busMarker = L.marker(newLatLng, {
+            icon: transportIcon,
+            rotationAngle: angulo, // <-- ¡LA MAGIA DE LA ROTACIÓN!
+            rotationOrigin: 'center center'
+        }).addTo(map);
         
-        // 2. Centramos el mapa de golpe a esa ubicación (sin animar)
         map.setView(newLatLng, INITIAL_ZOOM);
-        
-        // 3. Le inyectamos la clase de animación 'uber-motion' para los futuros movimientos
-        setTimeout(() => {
-            if (busMarker.getElement()) {
-                busMarker.getElement().classList.add('uber-motion');
-            }
-        }, 100);
+        setTimeout(() => { if (busMarker.getElement()) busMarker.getElement().classList.add('uber-motion'); }, 100);
 
     } else {
-        // Si el camión YA existe (movimientos posteriores), hacemos la animación suave
+        // Actualizamos posición y rotamos suavemente la nariz del camión hacia la calle
         busMarker.setLatLng(newLatLng);
+        busMarker.setRotationAngle(angulo); 
         
-        map.panTo(newLatLng, {
-            animate: true,
-            duration: 4.5, 
-            easeLinearity: 1 
-        });
+        map.panTo(newLatLng, { animate: true, duration: 4.5, easeLinearity: 1 });
     }
 };
 
