@@ -431,3 +431,10 @@ main {
     transform: scale(8); /* Efecto de zoom masivo a lo 'X' */
     opacity: 0;
 }
+
+@media (max-width: 768px) {
+    #btnCentrarCamion {
+        bottom: 110px !important;
+        right: 16px !important;
+    }
+}
